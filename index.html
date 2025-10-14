@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internet-Controlled Website Viewer</title>
+    <title>ROLEX AKASH CONNECTION </title>
     <style>
         * {
             margin: 0;
@@ -13,290 +13,381 @@
         }
         
         body {
-            background: #121212;
-            color: white;
+            background: #0f172a;
+            color: #fff;
             overflow: hidden;
-            height: 100vh;
-            width: 100vw;
         }
         
-        #websiteFrame {
-            width: 100%;
-            height: 100vh;
-            border: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        
-        #offlineScreen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        .container {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            height: 100vh;
+        }
+        
+        .header {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            z-index: 2;
-            padding: 20px;
-            text-align: center;
+            border-bottom: 1px solid #334155;
+            z-index: 10;
         }
         
-        #offlineScreen.hidden {
-            display: none;
-        }
-        
-        .error-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #ff6b6b;
-        }
-        
-        p {
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
             font-size: 1.2rem;
-            margin-bottom: 25px;
-            max-width: 600px;
-            line-height: 1.6;
-            color: #ddd;
+        }
+        
+        .logo-icon {
+            color: #3b82f6;
         }
         
         .status-indicator {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 20px 0;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px 20px;
-            border-radius: 50px;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(30, 41, 59, 0.7);
         }
         
         .status-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            margin-right: 10px;
         }
         
         .online {
-            background-color: #4CAF50;
-            box-shadow: 0 0 10px #4CAF50;
+            background-color: #10b981;
+            box-shadow: 0 0 8px #10b981;
         }
         
         .offline {
-            background-color: #F44336;
-            box-shadow: 0 0 10px #F44336;
+            background-color: #ef4444;
+            box-shadow: 0 0 8px #ef4444;
+        }
+        
+        .content-area {
+            flex: 1;
+            position: relative;
+        }
+        
+        .website-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        .error-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 5;
+        }
+        
+        .error-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: #ef4444;
+        }
+        
+        .error-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #f8fafc;
+        }
+        
+        .error-message {
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin-bottom: 30px;
+            color: #cbd5e1;
+            line-height: 1.6;
         }
         
         .retry-button {
-            padding: 12px 30px;
-            background: #4CAF50;
+            background: #3b82f6;
             color: white;
             border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .retry-button:hover {
-            background: #45a049;
+            background: #2563eb;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .connection-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px 15px;
-            border-radius: 10px;
+        .connection-test {
             display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .test-button {
+            background: rgba(30, 41, 59, 0.7);
+            color: white;
+            border: 1px solid #475569;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            background: rgba(51, 65, 85, 0.7);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            z-index: 100;
-            backdrop-filter: blur(5px);
+            justify-content: center;
+            gap: 20px;
         }
         
-        .loading-bar {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 101;
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(59, 130, 246, 0.3);
+            border-top: 5px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
         
-        .loading-progress {
-            height: 100%;
-            background: #4CAF50;
-            width: 0%;
-            transition: width 0.3s ease;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            border-top: 1px solid #334155;
         }
         
         @media (max-width: 768px) {
-            h1 {
+            .error-title {
                 font-size: 2rem;
             }
             
-            p {
+            .error-message {
                 font-size: 1rem;
             }
             
-            .error-icon {
-                font-size: 60px;
+            .header {
+                padding: 12px 15px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="loading-bar">
-        <div class="loading-progress" id="loadingProgress"></div>
-    </div>
-    
-    <div class="connection-status" id="connectionStatus">
-        <div class="status-dot online" id="statusDot"></div>
-        <span id="statusText">Checking connection...</span>
-    </div>
-    
-    <div id="offlineScreen">
-        <div class="error-icon">📶</div>
-        <h1>No Internet Connection</h1>
-        <p>You need an active internet connection to view this content or connect to AKASH SINGH</p>
-        <p>Please check your Wi-Fi or mobile data and try again.</p>
-        
-        <div class="status-indicator">
-            <div class="status-dot offline" id="offlineStatusDot"></div>
-            <span id="offlineStatusText">You are currently offline</span>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <span class="logo-icon">🌐</span>
+                <span>ROLEX AKASH CONNECTION</span>
+            </div>
+            <div class="status-indicator">
+                <div class="status-dot online" id="statusDot"></div>
+                <span id="statusText">Online</span>
+            </div>
         </div>
         
-        <button class="retry-button" id="retryButton">Retry Connection</button>
+        <div class="content-area">
+            <!-- Loading screen -->
+            <div class="error-screen" id="loadingScreen">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Checking connection and loading content...</p>
+                </div>
+            </div>
+            
+            <!-- Error screen -->
+            <div class="error-screen hidden" id="errorScreen">
+                <div class="error-icon">⚠️</div>
+                <h1 class="error-title">No Internet Connection</h1>
+                <p class="error-message">
+                    Your device is not connected to the internet. Please check your connection and try again.
+                    The website cannot be loaded without an active internet connection.
+                </p>
+                <button class="retry-button" id="retryButton">
+                    <span>Retry Connection</span>
+                </button>
+                
+                <div class="connection-test">
+                    <button class="test-button" id="simulateOffline">Simulate Offline</button>
+                    <button class="test-button" id="simulateOnline">Simulate Online</button>
+                </div>
+            </div>
+            
+            <!-- Website iframe -->
+            <iframe 
+                class="website-frame hidden" 
+                id="websiteFrame"
+                src="https://akashkumarsiffngh.github.io/ROLEX_AKASH-/"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        
+        <div class="footer">
+            <p>Internet Connection Monitor - Automatically checks your connection status</p>
+        </div>
     </div>
-    
-    <iframe id="websiteFrame" src="https://akashkumarsiffngh.github.io/Next_topper2/" frameborder="0"></iframe>
 
     <script>
         // DOM Elements
-        const offlineScreen = document.getElementById('offlineScreen');
-        const websiteFrame = document.getElementById('websiteFrame');
         const statusDot = document.getElementById('statusDot');
-        const offlineStatusDot = document.getElementById('offlineStatusDot');
         const statusText = document.getElementById('statusText');
-        const offlineStatusText = document.getElementById('offlineStatusText');
+        const errorScreen = document.getElementById('errorScreen');
+        const websiteFrame = document.getElementById('websiteFrame');
+        const loadingScreen = document.getElementById('loadingScreen');
         const retryButton = document.getElementById('retryButton');
-        const connectionStatus = document.getElementById('connectionStatus');
-        const loadingProgress = document.getElementById('loadingProgress');
+        const simulateOfflineBtn = document.getElementById('simulateOffline');
+        const simulateOnlineBtn = document.getElementById('simulateOnline');
         
-        // Target URL
-        const targetUrl = "https://akashkumarsiffngh.github.io/ROLEX_AKASH-/";
+        // State variables
+        let isOnline = true;
+        let isTesting = false;
         
-        // Check connection status
-        function checkConnection() {
-            // Show loading progress
-            loadingProgress.style.width = '30%';
-            
-            // Create a request to check connectivity
-            fetch('https://akashkumarsiffngh.github.io/ROLEX_AKASH-/', { 
-                method: 'HEAD',
-                mode: 'no-cors',
-                cache: 'no-cache'
-            }).then(() => {
-                // Success - we're online
-                updateStatus(true);
-                loadingProgress.style.width = '100%';
-                
-                // Hide offline screen after a short delay
-                setTimeout(() => {
-                    offlineScreen.classList.add('hidden');
-                    connectionStatus.style.display = 'flex';
-                    loadingProgress.style.width = '0%';
-                }, 500);
-            }).catch(() => {
-                // Error - we're offline
-                updateStatus(false);
-                loadingProgress.style.width = '0%';
-            });
-        }
-        
-        // Update UI based on connection status
-        function updateStatus(isOnline) {
-            if (isOnline) {
-                statusDot.className = 'status-dot online';
-                offlineStatusDot.className = 'status-dot online';
-                statusText.textContent = 'Online';
-                offlineStatusText.textContent = 'You are back online!';
-                
-                // Ensure iframe is loaded
-                if (!websiteFrame.src) {
-                    websiteFrame.src = targetUrl;
-                }
-            } else {
-                statusDot.className = 'status-dot offline';
-                offlineStatusDot.className = 'status-dot offline';
-                statusText.textContent = 'Offline';
-                offlineStatusText.textContent = 'You are currently offline';
-                
-                // Show offline screen
-                offlineScreen.classList.remove('hidden');
-                connectionStatus.style.display = 'flex';
-            }
-        }
-        
-        // Initial check
+        // Check initial connection status
         window.addEventListener('load', () => {
             checkConnection();
-            
-            // Also check using navigator.onLine for immediate feedback
-            if (navigator.onLine) {
-                updateStatus(true);
-            } else {
-                updateStatus(false);
-            }
         });
         
-        // Listen for connection changes
+        // Listen for online/offline events
         window.addEventListener('online', () => {
-            checkConnection();
+            if (!isTesting) {
+                updateStatus(true);
+            }
         });
         
         window.addEventListener('offline', () => {
-            updateStatus(false);
+            if (!isTesting) {
+                updateStatus(false);
+            }
         });
         
-        // Retry button
+        // Function to check connection status
+        function checkConnection() {
+            // First check navigator.onLine for immediate response
+            if (navigator.onLine) {
+                // Then try to fetch a small resource to confirm real connectivity
+                fetch('https://www.google.com/favicon.ico', { 
+                    mode: 'no-cors',
+                    cache: 'no-cache'
+                })
+                .then(() => {
+                    updateStatus(true);
+                })
+                .catch(() => {
+                    updateStatus(false);
+                });
+            } else {
+                updateStatus(false);
+            }
+        }
+        
+        // Function to update UI based on connection status
+        function updateStatus(isOnlineStatus) {
+            isOnline = isOnlineStatus;
+            
+            if (isOnline) {
+                // Online state
+                statusDot.className = 'status-dot online';
+                statusText.textContent = 'Online';
+                errorScreen.classList.add('hidden');
+                loadingScreen.classList.add('hidden');
+                websiteFrame.classList.remove('hidden');
+            } else {
+                // Offline state
+                statusDot.className = 'status-dot offline';
+                statusText.textContent = 'Offline';
+                errorScreen.classList.remove('hidden');
+                websiteFrame.classList.add('hidden');
+                loadingScreen.classList.add('hidden');
+            }
+        }
+        
+        // Retry connection
         retryButton.addEventListener('click', () => {
-            checkConnection();
+            loadingScreen.classList.remove('hidden');
+            errorScreen.classList.add('hidden');
+            
+            setTimeout(() => {
+                checkConnection();
+            }, 1500);
         });
         
-        // Periodically check connection (every 10 seconds)
-        setInterval(checkConnection, 10000);
-        
-        // Simulate connection issues for testing (remove in production)
-        window.simulateOffline = function() {
+        // Simulate offline for testing
+        simulateOfflineBtn.addEventListener('click', () => {
+            isTesting = true;
             updateStatus(false);
-        };
+            
+            // Reset testing flag after 5 seconds
+            setTimeout(() => {
+                isTesting = false;
+            }, 5000);
+        });
         
-        window.simulateOnline = function() {
+        // Simulate online for testing
+        simulateOnlineBtn.addEventListener('click', () => {
+            isTesting = true;
             updateStatus(true);
-        };
+            
+            // Reset testing flag after 5 seconds
+            setTimeout(() => {
+                isTesting = false;
+            }, 5000);
+        });
+        
+        // Periodically check connection status (every 10 seconds)
+        setInterval(() => {
+            if (!isTesting) {
+                checkConnection();
+            }
+        }, 10000);
+        
+        // Handle iframe load event
+        websiteFrame.addEventListener('load', () => {
+            // Iframe loaded successfully
+            console.log('Website loaded successfully');
+        });
+        
+        // Handle iframe error event
+        websiteFrame.addEventListener('error', () => {
+            // Iframe failed to load
+            console.log('Website failed to load');
+            // We don't change the UI here as the connection check will handle it
+        });
     </script>
 </body>
 </html>
