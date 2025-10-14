@@ -633,6 +633,32 @@
             color: #c0392b;
         }
 
+        /* Festival-specific styles for Generate Key button */
+        .diwali-theme .generate-key-btn {
+            background: linear-gradient(45deg, #ff9933, #ffcc00);
+            color: #990000;
+            font-weight: bold;
+        }
+
+        .chhat-puja-theme .generate-key-btn {
+            background: linear-gradient(45deg, #ff9933, #138808);
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Festival-specific styles for instructions */
+        .diwali-theme .instructions {
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 4px solid #ff9933;
+            color: #990000;
+        }
+
+        .chhat-puja-theme .instructions {
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 4px solid #ff9933;
+            color: #0a3d00;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
@@ -824,8 +850,8 @@
             'w24367', 'x69518', 'y32749', 'z85176'
         ];
 
-        // Start date: October 14, 2025
-        const startDate = new Date('2025-10-14');
+        // Start date: October 14, 2025 at 00:00:00
+        const startDate = new Date('2025-10-14T00:00:00');
         
         // Festival dates (for demonstration, using current year)
         const currentYear = new Date().getFullYear();
@@ -838,7 +864,7 @@
         const chhatStart = new Date(currentYear, 10, 17); // November 17
         const chhatEnd = new Date(currentYear, 10, 20); // November 20
 
-        // Function to get current day's password
+        // Function to get current day's password (expires at END of day)
         function getCurrentPassword() {
             const today = new Date();
             const timeDiff = today.getTime() - startDate.getTime();
@@ -857,6 +883,14 @@
         // Update password status in the login modal
         function updatePasswordStatus() {
             const currentPassword = getCurrentPassword();
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            
+            const timeUntilExpiry = tomorrow.getTime() - today.getTime();
+            const hoursUntilExpiry = Math.floor(timeUntilExpiry / (1000 * 60 * 60));
+            const minutesUntilExpiry = Math.floor((timeUntilExpiry % (1000 * 60 * 60)) / (1000 * 60));
             
             if (currentPassword === null) {
                 passwordStatus.textContent = 'Password system starts from October 14, 2025';
@@ -865,7 +899,7 @@
                 passwordStatus.textContent = 'Password has EXPIRED. Please generate a new key.';
                 passwordStatus.className = 'password-status password-expired';
             } else {
-                passwordStatus.textContent = `Today's password is valid (Day ${passwordSeries.indexOf(currentPassword) + 1})`;
+                passwordStatus.textContent = `Today's password is valid (Day ${passwordSeries.indexOf(currentPassword) + 1}) - Expires in ${hoursUntilExpiry}h ${minutesUntilExpiry}m`;
                 passwordStatus.className = 'password-status password-valid';
             }
         }
@@ -939,16 +973,25 @@
             e.preventDefault();
             updatePasswordStatus();
             loginModal.style.display = 'flex';
+            
+            // Update the countdown every minute
+            if (this.interval) clearInterval(this.interval);
+            this.interval = setInterval(updatePasswordStatus, 60000);
         });
 
         closeLoginBtn.addEventListener('click', function() {
             loginModal.style.display = 'none';
+            if (loginBtn.interval) clearInterval(loginBtn.interval);
         });
 
         getStartedBtn.addEventListener('click', function(e) {
             e.preventDefault();
             updatePasswordStatus();
             loginModal.style.display = 'flex';
+            
+            // Update the countdown every minute
+            if (this.interval) clearInterval(this.interval);
+            this.interval = setInterval(updatePasswordStatus, 60000);
         });
 
         loginForm.addEventListener('submit', function(e) {
@@ -976,6 +1019,7 @@
         window.addEventListener('click', function(e) {
             if (e.target === loginModal) {
                 loginModal.style.display = 'none';
+                if (loginBtn.interval) clearInterval(loginBtn.interval);
             }
         });
 
