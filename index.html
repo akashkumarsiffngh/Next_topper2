@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROLEX AKASH CONNECTION </title>
+    <title>ROLEX AKASH SERVER</title>
     <style>
         * {
             margin: 0;
@@ -138,26 +138,6 @@
             transform: translateY(-2px);
         }
         
-        .connection-test {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .test-button {
-            background: rgba(30, 41, 59, 0.7);
-            color: white;
-            border: 1px solid #475569;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .test-button:hover {
-            background: rgba(51, 65, 85, 0.7);
-        }
-        
         .hidden {
             display: none;
         }
@@ -213,7 +193,7 @@
         <div class="header">
             <div class="logo">
                 <span class="logo-icon">🌐</span>
-                <span>ROLEX AKASH CONNECTION</span>
+                <span>Connection Monitor</span>
             </div>
             <div class="status-indicator">
                 <div class="status-dot online" id="statusDot"></div>
@@ -236,16 +216,11 @@
                 <h1 class="error-title">No Internet Connection</h1>
                 <p class="error-message">
                     Your device is not connected to the internet. Please check your connection and try again.
-                    The website cannot be loaded without an active internet connection.
+                    The website cannot be loaded without an active internet connection or please connect to AKASH SINGH. 
                 </p>
                 <button class="retry-button" id="retryButton">
                     <span>Retry Connection</span>
                 </button>
-                
-                <div class="connection-test">
-                    <button class="test-button" id="simulateOffline">Simulate Offline</button>
-                    <button class="test-button" id="simulateOnline">Simulate Online</button>
-                </div>
             </div>
             
             <!-- Website iframe -->
@@ -259,7 +234,7 @@
         </div>
         
         <div class="footer">
-            <p>Internet Connection Monitor - Automatically checks your connection status</p>
+            <p>ROLEX AKASH CONNECTION </p></p>
         </div>
     </div>
 
@@ -271,12 +246,6 @@
         const websiteFrame = document.getElementById('websiteFrame');
         const loadingScreen = document.getElementById('loadingScreen');
         const retryButton = document.getElementById('retryButton');
-        const simulateOfflineBtn = document.getElementById('simulateOffline');
-        const simulateOnlineBtn = document.getElementById('simulateOnline');
-        
-        // State variables
-        let isOnline = true;
-        let isTesting = false;
         
         // Check initial connection status
         window.addEventListener('load', () => {
@@ -285,15 +254,11 @@
         
         // Listen for online/offline events
         window.addEventListener('online', () => {
-            if (!isTesting) {
-                updateStatus(true);
-            }
+            updateStatus(true);
         });
         
         window.addEventListener('offline', () => {
-            if (!isTesting) {
-                updateStatus(false);
-            }
+            updateStatus(false);
         });
         
         // Function to check connection status
@@ -317,9 +282,7 @@
         }
         
         // Function to update UI based on connection status
-        function updateStatus(isOnlineStatus) {
-            isOnline = isOnlineStatus;
-            
+        function updateStatus(isOnline) {
             if (isOnline) {
                 // Online state
                 statusDot.className = 'status-dot online';
@@ -347,33 +310,9 @@
             }, 1500);
         });
         
-        // Simulate offline for testing
-        simulateOfflineBtn.addEventListener('click', () => {
-            isTesting = true;
-            updateStatus(false);
-            
-            // Reset testing flag after 5 seconds
-            setTimeout(() => {
-                isTesting = false;
-            }, 5000);
-        });
-        
-        // Simulate online for testing
-        simulateOnlineBtn.addEventListener('click', () => {
-            isTesting = true;
-            updateStatus(true);
-            
-            // Reset testing flag after 5 seconds
-            setTimeout(() => {
-                isTesting = false;
-            }, 5000);
-        });
-        
         // Periodically check connection status (every 10 seconds)
         setInterval(() => {
-            if (!isTesting) {
-                checkConnection();
-            }
+            checkConnection();
         }, 10000);
         
         // Handle iframe load event
